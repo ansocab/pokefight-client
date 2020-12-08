@@ -26,8 +26,9 @@ export default function PokemonList() {
         {pokemon.map((item) => (
           <PokemonCard
             id={item.id}
-            name={item.name.english}
-            type={item.type[0]}
+            name={item.name}
+            type={item.type}
+            base={item.base}
           />
         ))}
       </ul>
