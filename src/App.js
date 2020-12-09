@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PokemonList from "./PokemonList";
-import PokemonDetailedView from "./PokemonDetailedView";
+import Game from "./Game";
 import PokemonSupDetailView from "./PokemonSupDetailView";
 import Header from "./Header.js";
 
@@ -16,8 +16,8 @@ export default function App() {
           <PokemonList />
         </Route>
 
-        <Route path="/:id">
-          <PokemonDetailedView />
+        <Route path="/fight/:id">
+          <Game />
         </Route>
 
         <Route path="/:id/:info">
