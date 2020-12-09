@@ -3,7 +3,17 @@ body {
   font-family: "Open Sans", Helvetica, sans-serif;
   text-align: center;
   margin: 0px;
+}
+
+.headerImage1 {
+  overflow: hidden;
+  height: 500px;
+}
+
+.headerImage1 img {
+  height: 100%;
   
+ contain: content;
 }
 
 .cardList {
