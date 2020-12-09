@@ -29,6 +29,7 @@ export default function PokemonList() {
             name={item.name}
             type={item.type}
             base={item.base}
+            origin="list"
           />
         ))}
       </ul>
