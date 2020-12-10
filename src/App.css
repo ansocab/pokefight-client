@@ -134,3 +134,23 @@ h5 {
   margin-right: auto;
   animation: spin 2s linear infinite;
 }
+
+.vanta-background {
+  width: 100%;
+  height: 100vh;
+  z-index: -10;
+  position: absolute;
+}
+
+.fight-button {
+  background: none;
+  background-color: #ffcb05;
+  font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
+  font-size: 1.5em;
+  padding: 20px;
+  border: none;
+  display: inline-block;
+  margin-bottom: 20px;
+  box-shadow: 3px 4px #9f9898;
+  border-radius: 15px;
+}
