@@ -164,8 +164,9 @@ h5 {
 
 .leaderboard-button {
   font-size: 2em;
+  margin-bottom: 2em;
 }
 
 .leaderboard table {
-  margin: 0 auto;
+  margin: 0 auto 4em auto;
 }
