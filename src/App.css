@@ -48,6 +48,7 @@ h5 {
   margin: 0;
   font-weight: 400;
 }
+
 .Pokemonclass {
   display: inline-block;
   width: 400px;
@@ -58,8 +59,13 @@ h5 {
   text-align: left;
   box-shadow: 0px 5px 20px -10px #111;
   position: relative;
-  
+  transition: 0.7s ease;
 }
+
+.Pokemonclass:hover {
+  transform: scale(1.05);
+}
+
 .card__caption {
   background-color: rgba(255, 255, 255, 0.829);
   padding: 1em;
@@ -87,6 +93,7 @@ h5 {
   background: rgb(136, 31, 31);
   font-size: 1.5em;
 }
+
 .card__label {
   font-size: 20px;
   text-transform: uppercase;
@@ -142,15 +149,23 @@ h5 {
   position: absolute;
 }
 
-.fight-button {
+.fight-button, .leaderboard-button {
   background: none;
   background-color: #ffcb05;
   font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
-  font-size: 1.5em;
+  font-size: 5em;
   padding: 20px;
   border: none;
   display: inline-block;
   margin-bottom: 20px;
   box-shadow: 3px 4px #9f9898;
   border-radius: 15px;
+}
+
+.leaderboard-button {
+  font-size: 2em;
+}
+
+.leaderboard table {
+  margin: 0 auto;
 }

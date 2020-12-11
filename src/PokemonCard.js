@@ -1,13 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
+import "./cardColors.css";
 
 export default function PokemonCard(props) {
 
   const ConditionalWrapper = ({ condition, wrapper, children }) => condition ? wrapper(children) : children;
   
   return (
-    <div className="Pokemonclass">
+    <div className={`Pokemonclass Pokemonclass--${props.type[0]}`}>
       <ConditionalWrapper condition={(props.origin === "list")} wrapper={children => <Link to={`fight/${props.id}`}>{children}</Link>}>
         <div className="card__image-container">
           <img

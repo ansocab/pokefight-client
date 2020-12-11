@@ -5,6 +5,7 @@ import PokemonList from "./PokemonList";
 import Game from "./Game";
 import PokemonSupDetailView from "./PokemonSupDetailView";
 import Header from "./Header.js";
+import Leaderboard from "./Leaderboard";
 
 export default function App() {
   return (
@@ -20,9 +21,14 @@ export default function App() {
           <Game />
         </Route>
 
+        <Route path="/leaderboard">
+          <Leaderboard />
+        </Route>
+
         <Route path="/:id/:info">
           <PokemonSupDetailView />
         </Route>
+
       </Switch>
     </div>
   );
