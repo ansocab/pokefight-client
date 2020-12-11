@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import PokemonCard from "./PokemonCard";
 
 export default function PokemonList() {
@@ -16,12 +17,13 @@ export default function PokemonList() {
       .then((response) => response.json())
       .then((response) => {
         setPokemon(response);
-        console.log(response);
-      });
+      })
+      .catch(err => console.log(err));
   };
 
   return (
     <div>
+      <Link to="/leaderboard"><button className="leaderboard-button">Leaderboard</button></Link>
       <ul className="cardList">
         {pokemon.map((item) => (
           <PokemonCard

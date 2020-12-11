@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import PokemonCard from "./PokemonCard";
 import VantaFog from "./VantaFog";
@@ -31,21 +31,23 @@ export default function Game() {
       .then((response) => response.json())
       .then((response) => {
         setPokemonOne(response);
-      });
-  };
-
-  const getPokemonTwo = () => {
-    fetch(`https://pokefighten.herokuapp.com/pokemon/${randomId}`)
+      })
+      .catch(err => console.log(err));
+    };
+    
+    const getPokemonTwo = () => {
+      fetch(`https://pokefighten.herokuapp.com/pokemon/${randomId}`)
       .then((response) => response.json())
       .then((response) => {
         setPokemonTwo(response);
-      });
+      })
+      .catch(err => console.log(err));
   };
 
    const fight = () => {
      let pokemonLowerSpeed = {};
      let pokemonHigherSpeed = {};
-     let counter = 0;
+     let counter = 1;
     
     if(pokemonOne.base.Speed >= pokemonTwo.base.Speed) {
       pokemonHigherSpeed = JSON.parse(JSON.stringify(pokemonOne));
@@ -61,28 +63,42 @@ export default function Game() {
       console.log(`HP ${pokemonLowerSpeed.name.english}: ${pokemonLowerSpeed.base.HP}`);
       if (pokemonLowerSpeed.base.HP <= 0) {
         console.log(`${pokemonHigherSpeed.name.english} has won the game!`);
-        gameData = {pokemon_one: pokemonOne, pokemon_two: pokemonTwo, number_of_rounds: counter+1, result: pokemonHigherSpeed.name.english}
+        gameData = {pokemon_one: pokemonOne.name.english, pokemon_two: pokemonTwo.name.english, number_of_rounds: counter, result: pokemonHigherSpeed.name.english}
         break;
       }
+      
       pokemonHigherSpeed.base.HP =
         pokemonHigherSpeed.base.HP + pokemonHigherSpeed.base.Defense - pokemonLowerSpeed.base.Attack;
       console.log(`HP ${pokemonHigherSpeed.name.english}: ${pokemonHigherSpeed.base.HP}`);
       if (pokemonHigherSpeed.base.HP <= 0) {
         console.log(`${pokemonLowerSpeed.name.english} has won the game!`);
-        gameData = {pokemon_one: pokemonOne, pokemon_two: pokemonTwo, number_of_rounds: counter+1, result: pokemonLowerSpeed.name.english}
+        gameData = {pokemon_one: pokemonOne.name.english, pokemon_two: pokemonTwo.name.english, number_of_rounds: counter, result: pokemonLowerSpeed.name.english}
         break;
       }
 
       if (counter === 9) {
         console.log("It's a tie!");
-        gameData = {pokemon_one: pokemonOne, pokemon_two: pokemonTwo, number_of_rounds: counter+1, result: "tie"}
+        gameData = {pokemon_one: pokemonOne.name.english, pokemon_two: pokemonTwo.name.english, number_of_rounds: counter, result: "tie"}
         break;
       }
       counter++;
 
     } while (pokemonHigherSpeed.base.HP > 0 && pokemonLowerSpeed.base.HP > 0);
     
-    console.log(gameData)
+    sendGameResult();
+  };
+
+  const sendGameResult = () => {
+    fetch(`https://pokefighten.herokuapp.com/game/save`, {
+      method: "POST",
+      body: JSON.stringify(gameData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => res.json())
+    // .then((res) => console.log(res))
+    .catch((err) => console.log(err));
   };
 
   if (loading) {

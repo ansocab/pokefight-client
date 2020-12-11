@@ -1,0 +1,139 @@
+.Pokemonclass--Fire {
+  background: linear-gradient(110deg, #fdbb2d 0%, #c08a53 100%);
+  box-shadow: 0px 5px 20px -10px #c08a53;
+}
+.Pokemonclass--Fire .card__type {
+  background-color: #c08a53;
+}
+
+.Pokemonclass--Normal {
+  background: linear-gradient(110deg, #c4c4c4 0%, #68656c 100%);
+  box-shadow: 0px 5px 20px -10px #68656c;
+}
+.Pokemonclass--Normal .card__type {
+  background-color: #68656c;
+}
+
+.Pokemonclass--Water {
+  background: linear-gradient(110deg, #91ddf9 0%, #303a8a 100%);
+  box-shadow: 0px 5px 20px -10px #08188f;
+}
+.Pokemonclass--Water .card__type {
+  background-color: #08188f;
+}
+
+.Pokemonclass--Grass {
+  background: linear-gradient(110deg, #adeb81 0%, #236a0b 100%);
+  box-shadow: 0px 5px 20px -10px #236a0b;
+}
+.Pokemonclass--Grass .card__type {
+  background-color: #236a0b;
+}
+
+.Pokemonclass--Electric {
+  background: linear-gradient(110deg, #f9ea98 0%, #f4d733 100%);
+  box-shadow: 0px 5px 20px -10px #f4d733;
+}
+.Pokemonclass--Electric .card__type {
+  background-color: #b6a126;
+}
+
+.Pokemonclass--Ice {
+  background: linear-gradient(110deg, #89c3f5 0%, #087aab 100%);
+  box-shadow: 0px 5px 20px -10px #087aab;
+}
+.Pokemonclass--Ice .card__type {
+  background-color: #087aab;
+}
+
+.Pokemonclass--Fighting {
+  background: linear-gradient(110deg, #9d9581 0%, #4f4936 100%);
+  box-shadow: 0px 5px 20px -10px  #4f4936;
+}
+.Pokemonclass--Fighting .card__type {
+  background-color:  #4f4936;
+}
+
+.Pokemonclass--Poison {
+  background: linear-gradient(110deg, #68c476 0%, #3a1c71 100%);
+  box-shadow: 0px 5px 20px -10px #3a1c71;
+}
+.Pokemonclass--Poison .card__type {
+  background-color:#68c476;
+}
+
+.Pokemonclass--Ground {
+  background: linear-gradient(110deg, #94938f 0%, #1d0000 100%);
+  box-shadow: 0px 5px 20px -10px  #1d0000;
+}
+.Pokemonclass--Ground .card__type {
+  background-color:  #1d0000;
+}
+
+.Pokemonclass--Flying {
+    background: linear-gradient(110deg, #f9f9f9 0%, #71c9e9 100%);
+    box-shadow: 0px 5px 20px -10px   #71c9e9;
+  }
+  .Pokemonclass--Flying .card__type {
+    background-color:   #71c9e9;
+  }
+  .Pokemonclass--Psychic {
+    background: linear-gradient(110deg, #fc8080 0%, #cb3b3b 100%);
+    box-shadow: 0px 5px 20px -10px   #cb3b3b;
+  }
+  .Pokemonclass--Psychic .card__type {
+    background-color:   #cb3b3b;
+  }
+  .Pokemonclass--Bug {
+    background: linear-gradient(110deg, #726b4e 0%, #193346 100%);
+    box-shadow: 0px 5px 20px -10px  #193346;
+  }
+  .Pokemonclass--Bug .card__type {
+    background-color: #193346;
+  }
+  .Pokemonclass--Rock {
+    background: linear-gradient(110deg, #bdbcb6 0%, #414141 100%);
+    box-shadow: 0px 5px 20px -10px  #414141;
+  }
+  .Pokemonclass--Rock .card__type {
+    background-color: #414141;
+  }
+  .Pokemonclass--Ghost {
+    background: rgba(255, 255, 255, 0);
+    box-shadow: 0px 5px 20px -10px  #1d0000;
+  }
+  .Pokemonclass--Ghost .card__type {
+    background-color:  #1d0000;
+  }
+
+  .Pokemonclass--Dragon {
+    background: linear-gradient(110deg, #e88f58 0%, #df7b24 100%);
+    box-shadow: 0px 5px 20px -10px  #df7b24;
+  }
+  .Pokemonclass--Dragon .card__type {
+    background-color:  #df7b24;
+  }
+
+  .Pokemonclass--Dark {
+    background: linear-gradient(110deg, #000000 0%, #000000 100%);
+    box-shadow: 0px 5px 20px -10px  #000000;
+  }
+  .Pokemonclass--Dark .card__type {
+    background-color:  #000000;
+  }
+  
+  .Pokemonclass--Steel {
+    background: linear-gradient(110deg, #9a9a9a 0%, #686868 100%);
+    box-shadow: 0px 5px 20px -10px  #686868;
+  }
+  .Pokemonclass--Steel .card__type {
+    background-color:  #686868;
+  }
+  
+  .Pokemonclass--Fairy {
+    background: linear-gradient(110deg, #975ab1 0%, #8a218f 100%);
+    box-shadow: 0px 5px 20px -10px  #8a218f;
+  }
+  .Pokemonclass--Fairy .card__type {
+    background-color:  #8a218f;
+  }
