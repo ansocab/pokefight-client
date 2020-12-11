@@ -1,73 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { GameContext } from "./GameContext";
 import { useParams } from "react-router-dom";
 import PokemonCard from "./PokemonCard";
 import VantaFog from "./VantaFog";
+import Header from "./Header.js";
 
 export default function Game() {
+  const { updateGameText } = useContext(GameContext);
   const [pokemonOne, setPokemonOne] = useState({});
   const [pokemonTwo, setPokemonTwo] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const randomId = Math.floor(Math.random() * 809);
-  
 
   // FETCH POKEMON (get request) AND GAME RESULT (post request)
   useEffect(() => {
     if (
       typeof pokemonOne.name !== "undefined" &&
       typeof pokemonTwo.name !== "undefined"
-      ) {
-        setLoading(false);
-      }
-    }, [pokemonOne, pokemonTwo]);
-    
-    useEffect(() => {
-      getPokemonOne();
-      getPokemonTwo();
-    }, []);
-    
-    const getPokemonOne = () => {
-      fetch(`https://pokefighten.herokuapp.com/pokemon/${id}`)
+    ) {
+      setLoading(false);
+    }
+  }, [pokemonOne, pokemonTwo]);
+
+  useEffect(() => {
+    getPokemonOne();
+    getPokemonTwo();
+  }, []);
+
+  const getPokemonOne = () => {
+    fetch(`https://pokefighten.herokuapp.com/pokemon/${id}`)
       .then((response) => response.json())
       .then((response) => {
         setPokemonOne(response);
       })
       .catch((err) => console.log(err));
-    };
-    
-    const getPokemonTwo = () => {
-      fetch(`https://pokefighten.herokuapp.com/pokemon/${randomId}`)
+  };
+
+  const getPokemonTwo = () => {
+    fetch(`https://pokefighten.herokuapp.com/pokemon/${randomId}`)
       .then((response) => response.json())
       .then((response) => {
         setPokemonTwo(response);
       })
       .catch((err) => console.log(err));
-    };
-    
-    const sendGameResult = () => {
-      fetch(`https://pokefighten.herokuapp.com/game/save`, {
-        method: "POST",
-        body: JSON.stringify(gameData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        // .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-    };
+  };
 
+  const sendGameResult = () => {
+    fetch(`https://pokefighten.herokuapp.com/game/save`, {
+      method: "POST",
+      body: JSON.stringify(gameData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      // .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
-    //GAME LOGIC
-    let current_attacking_player = 0;
-    let current_defending_player = 1;
-    let turns_left = 10;
-    let players = [];
-    let gameData = {};
-    
-    if (!loading) {
-      if (pokemonOne.base.Speed >= pokemonTwo.base.Speed) {
-        players = [
+  //GAME LOGIC
+  let current_attacking_player = 0;
+  let current_defending_player = 1;
+  let turns_left = 10;
+  let players = [];
+  let gameData = {};
+
+  if (!loading) {
+    if (pokemonOne.base.Speed >= pokemonTwo.base.Speed) {
+      players = [
         JSON.parse(JSON.stringify(pokemonOne)),
         JSON.parse(JSON.stringify(pokemonTwo)),
       ];
@@ -99,10 +100,10 @@ export default function Game() {
 
       // take a break for animation
       await fakeAnimationPause();
-      console.log(
-        `${players[current_attacking_player].name.english} is attacking`
+      updateGameText(
+        `${players[current_attacking_player].name.english} is attacking with power of ${players[current_attacking_player].base.Attack}`
       );
-      console.log(
+      updateGameText(
         `HP ${players[current_defending_player].name.english}: ${players[current_defending_player].base.HP}`
       );
 
@@ -111,19 +112,18 @@ export default function Game() {
       current_attacking_player = current_attacking_player === 0 ? 1 : 0;
       current_defending_player = current_attacking_player === 0 ? 1 : 0;
       attack();
-
     } else {
       let gameResult;
 
       if (turns_left === 0) {
         gameResult = "tie";
-        console.log("It's a tie!");
+        updateGameText("It's a tie!");
       } else {
         gameResult =
           players[current_attacking_player].base.HP > 0
             ? players[current_attacking_player].name.english
             : players[current_defending_player].name.english;
-        console.log(`${gameResult} wins!`);
+        updateGameText(`${gameResult} wins!`);
       }
 
       gameData = {
@@ -136,17 +136,18 @@ export default function Game() {
     }
   };
 
-
   // RENDER
   if (loading) {
     return <div className="spinner"></div>;
   } else {
     return (
       <div>
+        <VantaFog />
+        <Header />
         <button className="fight-button" onClick={attack}>
           START FIGHT
         </button>
-        <VantaFog />
+
         <ul>
           <PokemonCard
             id={pokemonOne.id}

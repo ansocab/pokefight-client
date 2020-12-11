@@ -4,14 +4,12 @@ import { Switch, Route } from "react-router-dom";
 import PokemonList from "./PokemonList";
 import Game from "./Game";
 import PokemonSupDetailView from "./PokemonSupDetailView";
-import Header from "./Header.js";
+
 import Leaderboard from "./Leaderboard";
 
 export default function App() {
   return (
     <div>
-      <Header />
-
       <Switch>
         <Route exact path="/">
           <PokemonList />
@@ -28,7 +26,6 @@ export default function App() {
         <Route path="/:id/:info">
           <PokemonSupDetailView />
         </Route>
-
       </Switch>
     </div>
   );

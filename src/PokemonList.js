@@ -18,13 +18,16 @@ export default function PokemonList() {
       .then((response) => {
         setPokemon(response);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   return (
     <div>
-      <Link to="/leaderboard"><button className="leaderboard-button">Leaderboard</button></Link>
-      <h1>Select the pokemon you want to fight with!</h1>
+      <div className="textf">POKEFIGHT ! </div>
+      <Link to="/leaderboard">
+        <button className="leaderboard-button">Leaderboard</button>
+      </Link>
+      <h1 className="texta">Select the pokemon you want to fight with!</h1>
       <ul className="cardList">
         {pokemon.map((item) => (
           <PokemonCard

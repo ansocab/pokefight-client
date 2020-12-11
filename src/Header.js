@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
-import headerImage from "./pokemon.jpg";
+import React, { useContext } from "react";
+import { GameContext } from "./GameContext";
+
 import "./App.css";
 
 export default function Header() {
+  const { gameText } = useContext(GameContext);
+  console.log(gameText);
   return (
-    <div className="headerImage1">
-      <img src={headerImage} />{" "}
+    <div id="logger" className="results">
+      {gameText.map((str) => (
+        <p>🐧 {str}</p>
+      ))}
     </div>
   );
 }
