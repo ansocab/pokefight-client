@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <div id="logger" className="results">
       {gameText.map((str) => (
-        <p>🐧 {str}</p>
+        <p> {str}</p>
       ))}
     </div>
   );
