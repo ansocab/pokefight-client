@@ -86,6 +86,11 @@ export default function Game() {
     });
   }
 
+  const startFight = () => {
+    updateGameText("reset");
+    attack();
+  }
+
   const attack = async () => {
     if (
       turns_left > 0 &&
@@ -141,14 +146,14 @@ export default function Game() {
     return <div className="spinner"></div>;
   } else {
     return (
-      <div>
+      <div className="game-wrapper">
         <VantaFog />
         <Header />
-        <button className="fight-button" onClick={attack}>
+        <button className="fight-button" onClick={startFight}>
           START FIGHT
         </button>
 
-        <ul>
+        <ul className="cardList">
           <PokemonCard
             id={pokemonOne.id}
             name={pokemonOne.name}
