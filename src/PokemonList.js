@@ -25,19 +25,20 @@ export default function PokemonList() {
   return (
     <div>
       <div className="textf">POKEFIGHT ! </div>
-      <Link to="/leaderboard">
-        <button className="leaderboard-button">Leaderboard</button>
+      <Link to="/leaderboard" className="leaderboard-button-link">
+        Leaderboard
       </Link>
+      <h1 className="texta">Select the pokemon you want to fight with!</h1>
       <input
+      className="search-input-field"
         type="text"
         value={filter}
         onChange={handleChange}
         placeholder="Search Pokedex"
       />
-      <h1 className="texta">Select the pokemon you want to fight with!</h1>
       <ul className="cardList">
         {pokemon
-          .filter((p) => p.name.english.includes(filter))
+          .filter((p) => p.name.english.toLowerCase().includes(filter.toLowerCase()))
           .map((item) => (
             <PokemonCard
               id={item.id}
@@ -45,6 +46,7 @@ export default function PokemonList() {
               type={item.type}
               base={item.base}
               origin="list"
+              key={item.id}
             />
           ))}
       </ul>
