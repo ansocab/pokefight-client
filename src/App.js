@@ -11,12 +11,12 @@ import Leaderboard from "./Leaderboard";
 export default function App() {
   const { updateGameText } = useContext(GameContext);
   const history = useHistory();
-
-useEffect(() => {
+  
+  useEffect(() => {
   return history.listen((location) => {
     updateGameText("reset")
   })
-}, [history])
+}, [history, updateGameText])
 
   return (
     <div>

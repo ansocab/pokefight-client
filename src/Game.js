@@ -11,40 +11,40 @@ export default function Game() {
   const [pokemonTwo, setPokemonTwo] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const randomId = Math.floor(Math.random() * 809);
-
+  
   // FETCH POKEMON (get request) AND GAME RESULT (post request)
   useEffect(() => {
     if (
       typeof pokemonOne.name !== "undefined" &&
       typeof pokemonTwo.name !== "undefined"
-    ) {
-      setLoading(false);
-    }
-  }, [pokemonOne, pokemonTwo]);
-
-  useEffect(() => {
+      ) {
+        setLoading(false);
+      }
+    }, [pokemonOne, pokemonTwo]);
+    
+    useEffect(() => {
+      const getPokemonOne = () => {
+        fetch(`https://pokefighten.herokuapp.com/pokemon/${id}`)
+        .then((response) => response.json())
+        .then((response) => {
+          setPokemonOne(response);
+        })
+        .catch((err) => console.log(err));
+      };
+      
+    const randomId = Math.floor(Math.random() * 809);
+    const getPokemonTwo = () => {
+      fetch(`https://pokefighten.herokuapp.com/pokemon/${randomId}`)
+        .then((response) => response.json())
+        .then((response) => {
+          setPokemonTwo(response);
+        })
+        .catch((err) => console.log(err));
+    };
+    
     getPokemonOne();
     getPokemonTwo();
-  }, []);
-
-  const getPokemonOne = () => {
-    fetch(`https://pokefighten.herokuapp.com/pokemon/${id}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setPokemonOne(response);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const getPokemonTwo = () => {
-    fetch(`https://pokefighten.herokuapp.com/pokemon/${randomId}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setPokemonTwo(response);
-      })
-      .catch((err) => console.log(err));
-  };
+  }, [id]);
 
   const sendGameResult = () => {
     fetch(`https://pokefighten.herokuapp.com/game/save`, {

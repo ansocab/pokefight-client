@@ -7,7 +7,6 @@ export default function Leaderboard() {
     fetch(`https://pokefighten.herokuapp.com/game/leaderboard`)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         setLeaderboard(res);
       })
       .catch((err) => console.log(err));
@@ -25,7 +24,7 @@ export default function Leaderboard() {
         </thead>
         <tbody>
           {leaderboard.map((game) => (
-            <tr>
+            <tr key={game._id}>
               <td>{`${game.pokemon_one} vs. ${game.pokemon_two}`}</td>
               <td>{game.number_of_rounds}</td>
               <td>
