@@ -53,7 +53,7 @@ h5 {
 
 .Pokemonclass {
   display: inline-block;
-  width: 400px;
+  width: 300px;
   padding: 0.6em;
   border-radius: 30px;
   margin: 20px;
@@ -93,7 +93,7 @@ h5 {
   line-height: 1;
   border-radius: 2px;
   background: rgb(136, 31, 31);
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 .card__label {
@@ -106,15 +106,13 @@ h5 {
 .card__name {
   font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
   text-align: center;
-  font-size: 3em;
+  font-size: 2em;
   font-weight: 700;
   letter-spacing: 0.02em;
-  margin-top: 20px;
 }
 .card__stats {
-  margin: 1em 0;
   width: 100%;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 .card__stats th {
   font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
@@ -207,3 +205,24 @@ h5 {
   padding-left: 5px;
   font-size: 1em;
 }
+
+.fight-instruction {
+  margin: 30px 0px;
+}
+
+.weaponBtn {
+  margin: 10px;
+  background: none;
+  border-radius: 15px;
+  outline: none;
+}
+
+.weaponBtn > * {
+  pointer-events: none;
+}
+
+.fight-icon {
+  font-size: 2em;
+  padding: 5px;
+}
+

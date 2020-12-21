@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import "./App.css";
 import { GameContext } from "./GameContext";
 import { Switch, Route, useHistory } from "react-router-dom";
-import PokemonList from "./PokemonList";
-import Game from "./Game";
-import PokemonSupDetailView from "./PokemonSupDetailView";
+import PokemonList from "./Components/PokemonList";
+import Game from "./Components/Game";
+import PokemonSupDetailView from "./Components/PokemonSupDetailView";
 
-import Leaderboard from "./Leaderboard";
+import Leaderboard from "./Components/Leaderboard";
 
 export default function App() {
   const { updateGameText } = useContext(GameContext);

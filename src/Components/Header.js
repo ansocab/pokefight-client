@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { GameContext } from "./GameContext";
+import { GameContext } from "../GameContext";
 
-import "./App.css";
+import "../App.css";
 
 export default function Header() {
   const { gameText } = useContext(GameContext);

@@ -14,7 +14,7 @@ export default function PokemonList() {
     setFilter(e.target.value);
   };
   const getDataFromPokefighten = () => {
-    fetch(`https://pokefighten.herokuapp.com/pokemon`)
+    fetch(`https://pokefightv2.herokuapp.com/pokemon`)
       .then((response) => response.json())
       .then((response) => {
         setPokemon(response);

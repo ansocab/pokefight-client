@@ -4,7 +4,7 @@ export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
 
   useEffect(() => {
-    fetch(`https://pokefighten.herokuapp.com/game/leaderboard`)
+    fetch(`https://pokefightv2.herokuapp.com/game/leaderboard`)
       .then((res) => res.json())
       .then((res) => {
         setLeaderboard(res);

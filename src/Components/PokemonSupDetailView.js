@@ -11,7 +11,7 @@ export default function PokemonSupDetailedView() {
   //    setQuery(e.target.value)
 
   const getSupDetailedViewPokefighten = () => {
-    fetch(`https://pokefighten.herokuapp.com/pokemon`)
+    fetch(`https://pokefightv2.herokuapp.com/pokemon`)
       .then((response) => response.json())
       .then((response) => {
         setPokemon(response);
