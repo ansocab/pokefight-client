@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
@@ -34,6 +35,9 @@ export default function Leaderboard() {
           ))}
         </tbody>
       </table>
+      <Link to="/" className="leaderboard-button-link">
+        Start new game
+      </Link>
     </div>
   );
 }

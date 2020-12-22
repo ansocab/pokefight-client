@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faHandScissors,
@@ -8,23 +8,12 @@ import {
 import "../App.css";
 
 export default function GameButton({callback}) {
-    const [playersChoice, setPlayersChoice] = useState("");
-
-    useEffect(() => {
-        if (playersChoice !== "") {
-          callback(playersChoice)
-        }
-      }, [playersChoice]);
-
       const selectWeapon = (e) => {
-        //console.log("Players choice: " + e.target.name);
-        //setPlayersChoice("");
-        setPlayersChoice(e.target.name);
+       callback(e.target.name)
       };
-    
 
   return (
-    <>
+    <div className="weaponBtn-wrapper">
       <div>
         <button className="weaponBtn" name="rock" onClick={selectWeapon}>
           <FontAwesomeIcon
@@ -42,6 +31,6 @@ export default function GameButton({callback}) {
           <FontAwesomeIcon className="fight-icon" icon={faHandScissors} />
         </button>
       </div>
-    </>
+    </div>
   );
 }

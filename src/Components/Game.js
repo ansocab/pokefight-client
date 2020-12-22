@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { GameContext } from "../GameContext";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import PokemonCard from "./PokemonCard";
 import VantaFog from "./VantaFog";
-import Header from "./Header";
+import GameTextbox from "./GameTextbox";
 import GameButtons from "./GameButtons";
+import ProgressBar from "./ProgressBar";
 
 export default function Game() {
   const { updateGameText } = useContext(GameContext);
@@ -12,35 +13,48 @@ export default function Game() {
   const [pokemonTwo, setPokemonTwo] = useState({});
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [randomId, setRandomId] = useState(Math.floor(Math.random() * 809));
+  const [showButtons, setShowButtons] = useState(true);
+  const [showTextfield, setShowTextfield] = useState(false);
   const { id } = useParams();
+  const history = useHistory();
+
+  const [playersHp, setPlayersHp] = useState([]);
+  const [playersHpPercentage, setPlayersHpPercentage] = useState([100, 100]);
+  const [winCounter, setWinCounter] = useState(0);
+  let current_attacking_player = 0;
+  let current_defending_player = 1;
+  let players = [];
+  let playersDamage = [];
+  let playersDamageMessages = [];
+  let gameData = {};
 
   // FETCH POKEMON (get request) AND GAME RESULT (post request)
-    const getPokemonOne = 
-      fetch(`https://pokefightv2.herokuapp.com/pokemon/${id}`)
-        .then((response) => response.json())
-        .catch((err) => console.log(err));
+  const getPokemonOne = fetch(`https://pokefightv2.herokuapp.com/pokemon/${id}`)
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
 
-    const randomId = Math.floor(Math.random() * 809);
-    const getPokemonTwo = 
-      fetch(`https://pokefightv2.herokuapp.com/pokemon/${randomId}`)
-        .then((response) => response.json())
-        .catch((err) => console.log(err));
+  const getPokemonTwo = fetch(
+    `https://pokefightv2.herokuapp.com/pokemon/${randomId}`
+  )
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
 
-    const getTypeData = 
-      fetch(`https://pokefightv2.herokuapp.com/type`)
-        .then((response) => response.json())
-        .catch((err) => console.log(err));
+  const getTypeData = fetch(`https://pokefightv2.herokuapp.com/type`)
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
 
-
-    useEffect(() => {
-      Promise.all([getPokemonOne, getPokemonTwo, getTypeData]).then((values) => {
-        console.log(values)
-        setPokemonOne(values[0]);
-        setPokemonTwo(values[1]);
-        setTypes(values[2]);
-        setLoading(false);
-      });
-    }, [])
+  useEffect(() => {
+    setRandomId(Math.floor(Math.random() * 809));
+    Promise.all([getPokemonOne, getPokemonTwo, getTypeData]).then((values) => {
+      setPokemonOne(values[0]);
+      setPokemonTwo(values[1]);
+      setTypes(values[2]);
+      setPlayersHp([values[0].base.HP, values[1].base.HP]);
+      setPlayersHpPercentage([100, 100]);
+      setLoading(false);
+    });
+  }, [winCounter]);
 
   const sendGameResult = () => {
     fetch(`https://pokefightv2.herokuapp.com/game/save`, {
@@ -56,18 +70,8 @@ export default function Game() {
   };
 
   //GAME LOGIC
-  let current_attacking_player = 0;
-  let current_defending_player = 1;
-  let players = [];
-  let playersDamage = [];
-  let playersDamageMessages = [];
-  let gameData = {};
-
   if (!loading) {
-    players = [
-      JSON.parse(JSON.stringify(pokemonOne)),
-      JSON.parse(JSON.stringify(pokemonTwo)),
-    ];
+    players = [pokemonOne, pokemonTwo];
 
     let pOneTypes = [];
     pokemonOne.type.forEach((pOneType) => {
@@ -111,37 +115,19 @@ export default function Game() {
 
   function getDamageMessage(damageDegree) {
     if (damageDegree < 0.5) {
-      return "The attack was not very effective";
+      return "The attack was not very effective...";
     } else if (damageDegree > 0.5) {
-      return "The attack was super effective";
+      return "The attack was super effective!";
     } else {
       return "The attack was successful";
     }
   }
-
-  // const selectWeapon = (e) => {
-  //   //console.log("Players choice: " + e.target.name);
-  //   setPlayersChoice("");
-  //   setPlayersChoice(e.target.name);
-  // };
-
-  // useEffect(() => {
-  //   if (playersChoice !== "") {
-
-  //     rockPaperScissors();
-  //   }
-  // }, [playersChoice]);
 
   function fakeAnimationPause() {
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve(), 2000);
     });
   }
-
-  // const startFight = () => {
-  //   updateGameText("reset");
-  //   rockPaperScissors();
-  // };
 
   const getSign = (number) => {
     switch (number) {
@@ -156,15 +142,21 @@ export default function Game() {
     }
   };
 
-  const rockPaperScissors = (playersChoice) => {
-    // updateGameText("reset");
+  const rockPaperScissors = async (playersChoice) => {
     const computersChoice = getSign(Math.floor(Math.random() * 3));
     console.log("Players choice: " + playersChoice);
     console.log(`Computers choice: ${computersChoice}`);
 
+    setShowButtons(false);
+
     if (playersChoice === computersChoice) {
       console.log("It's a tie!");
-      //rockPaperScissors();
+      setShowButtons(false);
+      setShowTextfield(true);
+      updateGameText("It's a tie!");
+      await fakeAnimationPause();
+      setShowTextfield(false);
+      setShowButtons(true);
     } else if (
       (playersChoice === "rock" && computersChoice === "scissors") ||
       (playersChoice === "scissors" && computersChoice === "paper") ||
@@ -184,42 +176,68 @@ export default function Game() {
 
   const attack = async () => {
     // computation and setting of attack, HP values etc.
+    console.log(playersDamage[current_attacking_player]);
+    setShowTextfield(true);
     updateGameText(playersDamageMessages[current_attacking_player]);
+    let newHpDefendingPlayer;
+    let newPercentageDefendingPlayer;
+
     if (
-      Math.floor(Math.random() * 100) <
+      Math.floor(Math.random() * 200) <
       players[current_attacking_player].base.Speed
     ) {
-      players[current_defending_player].base.HP =
-        players[current_defending_player].base.HP -
-        players[current_attacking_player].base.Attack *
-          playersDamage[current_attacking_player] *
-          2;
+      newHpDefendingPlayer = Math.floor(
+        playersHp[current_defending_player] -
+          players[current_attacking_player].base.Attack *
+            playersDamage[current_attacking_player] *
+            2
+      );
+      console.log(newHpDefendingPlayer);
+      await fakeAnimationPause();
       updateGameText("It was so fast, it attacked twice!");
     } else {
-      players[current_defending_player].base.HP =
-        players[current_defending_player].base.HP -
-        players[current_attacking_player].base.Attack *
-          playersDamage[current_attacking_player];
+      newHpDefendingPlayer = Math.floor(
+        playersHp[current_defending_player] -
+          players[current_attacking_player].base.Attack *
+            playersDamage[current_attacking_player]
+      );
     }
 
-    // take a break for animation
-    await fakeAnimationPause();
+    if (newHpDefendingPlayer < 0) {
+      newHpDefendingPlayer = 0;
+    }
 
-    updateGameText(
-      `HP ${players[current_defending_player].name.english}: ${players[current_defending_player].base.HP}`
+    setPlayersHp(
+      playersHp.map((hp, index) => [
+        index === current_defending_player ? newHpDefendingPlayer : hp,
+      ])
     );
 
-    // update game conditions
+    newPercentageDefendingPlayer =
+      (newHpDefendingPlayer / players[current_defending_player].base.HP) * 100;
 
-    if (
-      players[current_defending_player].base.HP <= 0 ||
-      players[current_attacking_player].base.HP <= 0
-    ) {
-      let gameResult =
-        players[current_attacking_player].base.HP > 0
-          ? players[current_attacking_player].name.english
-          : players[current_defending_player].name.english;
+    setPlayersHpPercentage(
+      playersHpPercentage.map((percentage, index) => [
+        index === current_defending_player
+          ? newPercentageDefendingPlayer
+          : percentage,
+      ])
+    );
+
+    await fakeAnimationPause();
+
+    if (newHpDefendingPlayer <= 0) {
+      let gameResult = players[current_attacking_player].name.english;
       updateGameText(`${gameResult} wins!`);
+
+      if (gameResult === pokemonOne.name.english) {
+        await fakeAnimationPause();
+        setWinCounter(winCounter + 1);
+        setShowTextfield(false);
+        setShowButtons(true);
+      } else {
+        history.push("/leaderboard");
+      }
 
       gameData = {
         pokemon_one: pokemonOne.name.english,
@@ -229,11 +247,14 @@ export default function Game() {
       };
       //sendGameResult();
     } else {
+      setShowTextfield(false);
+      setShowButtons(true);
       console.log(
         "defending: " +
-          players[current_defending_player].base.HP + " " +
+          newHpDefendingPlayer +
+          " " +
           "attacking: " +
-          players[current_attacking_player].base.HP
+          playersHp[current_attacking_player]
       );
     }
   };
@@ -245,7 +266,6 @@ export default function Game() {
     return (
       <div className="game-wrapper">
         <VantaFog />
-        <Header />
         <ul className="cardList">
           <PokemonCard
             id={pokemonOne.id}
@@ -254,7 +274,8 @@ export default function Game() {
             base={pokemonOne.base}
             origin="game"
           />
-          <GameButtons callback={rockPaperScissors} />
+          {showButtons === true && <GameButtons callback={rockPaperScissors} />}
+          {showTextfield === true && <GameTextbox />}
           <PokemonCard
             id={pokemonTwo.id}
             name={pokemonTwo.name}
@@ -262,6 +283,11 @@ export default function Game() {
             base={pokemonTwo.base}
             origin="game"
           />
+        </ul>
+        <ul className="cardList">
+          <ProgressBar completed={playersHpPercentage[0]} />
+          <div className="game-textfield">{`Pokemon defeated: ${winCounter}`}</div>
+          <ProgressBar completed={playersHpPercentage[1]} />
         </ul>
       </div>
     );
