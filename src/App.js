@@ -5,6 +5,7 @@ import { Switch, Route, useHistory } from "react-router-dom";
 import PokemonList from "./Components/PokemonList";
 import Game from "./Components/Game";
 import PokemonSupDetailView from "./Components/PokemonSupDetailView";
+import Header from "./Components/Header";
 
 import Leaderboard from "./Components/Leaderboard";
 
@@ -20,6 +21,7 @@ export default function App() {
 
   return (
     <div>
+      <Header />
       <Switch>
         <Route exact path="/">
           <PokemonList />

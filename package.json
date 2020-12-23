@@ -16,6 +16,7 @@
     "react-paginate": "^6.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-spring": "^8.0.27",
     "vanta": "^0.5.21",
     "web-vitals": "^0.2.4"
   },

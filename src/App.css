@@ -31,6 +31,10 @@ h5 {
   font-weight: 400;
 }
 
+h1 {
+  margin-top: 5px;
+}
+
 .cardList {
   display: flex;
   flex-wrap: wrap;
@@ -40,11 +44,11 @@ h5 {
   margin-top: 40px;
 }
 
-
 /* CARDS */
-.Pokemonclass {
+.Pokemonclass, .card-wrapper {
   display: inline-block;
   width: 300px;
+  height: 487px;
   padding: 0.6em;
   border-radius: 30px;
   margin: 20px;
@@ -55,13 +59,26 @@ h5 {
   transition: 0.7s ease;
 }
 
-.Pokemonclass:hover {
-  transform: scale(1.05);
-}
-
 .Pokemonclass a {
   color: black !important;
   text-decoration: none;
+}
+
+.card-wrapper {
+  background: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.pokemon-gamecard {
+  position: absolute;
+  margin: 0;
+  transition: none;
+  will-change: transform, opacity;
+}
+
+.pokemoncard:hover {
+  transform: scale(1.05);
 }
 
 .card__caption {
@@ -120,8 +137,6 @@ h5 {
   padding: 0.25em 0.5em 0;
 }
 
-
-
 /* BUTTONS */
 .fight-button,
 .leaderboard-button-link,
@@ -163,6 +178,7 @@ h5 {
   width: 200px;
   padding: 10px;
   border: 3px solid transparent;
+  transition: 0.4s ease;
 }
 
 .weaponBtn {
@@ -188,7 +204,6 @@ h5 {
   font-size: 3em;
 }
 
-
 /* OTHER ELEMENTS */
 .game-wrapper {
   position: absolute;
@@ -202,7 +217,7 @@ h5 {
   border-radius: 30px;
   border: 3px solid rgba(0, 0, 0, 0.755);
   background: rgba(255, 255, 255, 0.7);
-  color:  rgba(0, 0, 0, 0.755);
+  color: rgba(0, 0, 0, 0.755);
   font-weight: 600;
   font-size: 1.2em;
   padding: 2px 10px;
@@ -219,11 +234,23 @@ h5 {
   margin: 0 auto 4em auto;
 }
 
-.textf {
-  font-size: 60px;
-  margin-top: 50px;
+.header-wrapper {
+  margin: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.header-text {
+  margin-right: 15px;
+  font-size: 5em;
   font-weight: bold;
   font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
+}
+
+.header-wrapper img {
+  height: 80px;
 }
 
 .search-input-field {
@@ -246,3 +273,50 @@ h5 {
   animation: spin 2s linear infinite;
 }
 
+/* PAGINATION */
+.pagination {
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.pagination ul {
+  display: inline-block;
+}
+
+.pagination li {
+  display: inline-block;
+  margin: 5px;
+}
+
+.pagination li.selected a {
+  color: rgb(49, 110, 201);
+  border: 2px solid rgb(49, 110, 201);
+  border-radius: 5px;
+}
+
+.pagination li.previous a,
+.pagination li.next a {
+  padding: 0 10px;
+}
+
+.pagination a {
+  display: block;
+  outline: none;
+  min-width: 30px;
+  color: black;
+  text-align: center;
+  border-radius: 2px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+/* CARD ANIMATION */
+.card-icon {
+  font-size: 4em;
+}
+
+.back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

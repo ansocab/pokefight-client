@@ -1,30 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PokemonCard from "./PokemonCard";
+import Pagination from "./Pagination";
 
 export default function PokemonList() {
   const [pokemon, setPokemon] = useState([]);
   const [filter, setFilter] = useState("");
+  // const [pageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    const getDataFromPokefighten = () => {
+      fetch(`https://pokefightv2.herokuapp.com/pokemon/?page=${currentPage}`)
+        .then((response) => response.json())
+        .then((response) => {
+          setPokemon(response);
+          // setPageCount(Math.ceil(response.length / 12));
+        })
+        .catch((err) => console.log(err));
+    };
     getDataFromPokefighten();
-  }, []);
+  }, [currentPage]);
 
   const handleChange = (e) => {
     setFilter(e.target.value);
   };
-  const getDataFromPokefighten = () => {
-    fetch(`https://pokefightv2.herokuapp.com/pokemon`)
-      .then((response) => response.json())
-      .then((response) => {
-        setPokemon(response);
-      })
-      .catch((err) => console.log(err));
-  };
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected+1);
+  }
 
   return (
     <div>
-      <div className="textf">POKEFIGHT ! </div>
       <Link to="/leaderboard" className="leaderboard-button-link">
         Leaderboard
       </Link>
@@ -50,6 +57,7 @@ export default function PokemonList() {
             />
           ))}
       </ul>
+      <Pagination handlePageClick={handlePageClick}/>
     </div>
   );
 }

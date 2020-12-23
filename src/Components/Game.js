@@ -1,14 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { GameContext } from "../GameContext";
 import { useHistory, useParams } from "react-router-dom";
-import PokemonCard from "./PokemonCard";
+import PokemonGamecard from "./PokemonGamecard";
 import VantaFog from "./VantaFog";
 import GameTextbox from "./GameTextbox";
 import GameButtons from "./GameButtons";
 import ProgressBar from "./ProgressBar";
 
 export default function Game() {
-  const { updateGameText } = useContext(GameContext);
+  const {
+    updateGameText,
+    setComputersChoice,
+    playersChoice,
+    computersChoice,
+  } = useContext(GameContext);
   const [pokemonOne, setPokemonOne] = useState({});
   const [pokemonTwo, setPokemonTwo] = useState({});
   const [types, setTypes] = useState([]);
@@ -18,6 +23,8 @@ export default function Game() {
   const [showTextfield, setShowTextfield] = useState(false);
   const { id } = useParams();
   const history = useHistory();
+  const gamecardRefOne = useRef();
+  const gamecardRefTwo = useRef();
 
   const [playersHp, setPlayersHp] = useState([]);
   const [playersHpPercentage, setPlayersHpPercentage] = useState([100, 100]);
@@ -123,9 +130,9 @@ export default function Game() {
     }
   }
 
-  function fakeAnimationPause() {
+  function pause(secs) {
     return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(), 2000);
+      setTimeout(() => resolve(), secs);
     });
   }
 
@@ -142,34 +149,46 @@ export default function Game() {
     }
   };
 
-  const rockPaperScissors = async (playersChoice) => {
-    const computersChoice = getSign(Math.floor(Math.random() * 3));
-    console.log("Players choice: " + playersChoice);
-    console.log(`Computers choice: ${computersChoice}`);
+  const flipCards = () => {
+    gamecardRefOne.current.flipCard();
+    gamecardRefTwo.current.flipCard();
+  };
+
+  const rockPaperScissors = async (pChoice) => {
+    const cChoice = getSign(Math.floor(Math.random() * 3));
+    setComputersChoice(cChoice);
+    flipCards();
+    console.log("Players choice: " + pChoice);
+    console.log(`Computers choice: ${cChoice}`);
 
     setShowButtons(false);
 
-    if (playersChoice === computersChoice) {
+    if (pChoice === cChoice) {
       console.log("It's a tie!");
       setShowButtons(false);
       setShowTextfield(true);
       updateGameText("It's a tie!");
-      await fakeAnimationPause();
+      await pause(2000);
       setShowTextfield(false);
       setShowButtons(true);
+      flipCards();
     } else if (
-      (playersChoice === "rock" && computersChoice === "scissors") ||
-      (playersChoice === "scissors" && computersChoice === "paper") ||
-      (playersChoice === "paper" && computersChoice === "rock")
+      (pChoice === "rock" && cChoice === "scissors") ||
+      (pChoice === "scissors" && cChoice === "paper") ||
+      (pChoice === "paper" && cChoice === "rock")
     ) {
       console.log("You won the round!");
       current_attacking_player = 0;
       current_defending_player = 1;
+      await pause(2000);
+      flipCards();
       attack();
     } else {
       console.log("You lost the round!");
       current_attacking_player = 1;
       current_defending_player = 0;
+      await pause(2000);
+      flipCards();
       attack();
     }
   };
@@ -193,7 +212,7 @@ export default function Game() {
             2
       );
       console.log(newHpDefendingPlayer);
-      await fakeAnimationPause();
+      await pause(2000);
       updateGameText("It was so fast, it attacked twice!");
     } else {
       newHpDefendingPlayer = Math.floor(
@@ -224,14 +243,14 @@ export default function Game() {
       ])
     );
 
-    await fakeAnimationPause();
+    await pause(2000);
 
     if (newHpDefendingPlayer <= 0) {
       let gameResult = players[current_attacking_player].name.english;
       updateGameText(`${gameResult} wins!`);
 
       if (gameResult === pokemonOne.name.english) {
-        await fakeAnimationPause();
+        await pause(2000);
         setWinCounter(winCounter + 1);
         setShowTextfield(false);
         setShowButtons(true);
@@ -267,21 +286,25 @@ export default function Game() {
       <div className="game-wrapper">
         <VantaFog />
         <ul className="cardList">
-          <PokemonCard
+          <PokemonGamecard
             id={pokemonOne.id}
             name={pokemonOne.name}
             type={pokemonOne.type}
             base={pokemonOne.base}
-            origin="game"
+            ref={gamecardRefOne}
+            choice={playersChoice}
+            // origin="game"
           />
           {showButtons === true && <GameButtons callback={rockPaperScissors} />}
           {showTextfield === true && <GameTextbox />}
-          <PokemonCard
+          <PokemonGamecard
             id={pokemonTwo.id}
             name={pokemonTwo.name}
             type={pokemonTwo.type}
             base={pokemonTwo.base}
-            origin="game"
+            ref={gamecardRefTwo}
+            choice={computersChoice}
+            // origin="game"
           />
         </ul>
         <ul className="cardList">
