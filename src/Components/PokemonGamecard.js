@@ -2,7 +2,9 @@ import React, {
   useState,
   forwardRef,
   useImperativeHandle,
+  useContext,
 } from "react";
+import { GameContext } from "../GameContext";
 import { useSpring, animated as a } from "react-spring";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,6 +16,7 @@ import "../App.css";
 import "../cardColors.css";
 
 const PokemonGamecard = forwardRef((props, ref) => {
+  const { phase } = useContext(GameContext);
   const [flipped, set] = useState(false);
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
@@ -21,7 +24,13 @@ const PokemonGamecard = forwardRef((props, ref) => {
     config: { mass: 5, tension: 500, friction: 80 },
   });
 
-  useImperativeHandle(ref, (choice) => ({
+  const styleFront = { opacity: opacity.interpolate((o) => 1 - o), transform };
+  const styleBack = {
+    opacity,
+    transform: transform.interpolate((t) => `${t} rotateY(180deg)`),
+  };
+
+  useImperativeHandle(ref, () => ({
     flipCard() {
       set((state) => !state);
     },
@@ -31,7 +40,8 @@ const PokemonGamecard = forwardRef((props, ref) => {
     <div className="card-wrapper">
       <a.div
         className={`Pokemonclass Pokemonclass--${props.type[0]} pokemon-gamecard`}
-        style={{ opacity: opacity.interpolate((o) => 1 - o), transform }}
+        style={props.position === "left" ? styleFront : styleBack}
+        // style={{ opacity: opacity.interpolate((o) => 1 - o), transform }}
       >
         <div className="card__image-container">
           <img
@@ -68,13 +78,27 @@ const PokemonGamecard = forwardRef((props, ref) => {
 
       <a.div
         className={`Pokemonclass Pokemonclass--${props.type[0]} pokemon-gamecard back`}
-        style={{
-          opacity,
-          transform: transform.interpolate((t) => `${t} rotateY(180deg)`),
-        }}
+        // style={{
+        //   opacity,
+        //   transform: transform.interpolate((t) => `${t} rotateY(180deg)`),
+        // }}
+        style={props.position === "left" ? styleBack : styleFront}
       >
         {/* <FontAwesomeIcon className="fight-icon" icon={`props.choice`} /> */}
-        <FontAwesomeIcon className="fight-icon card-icon" icon={props.choice === "rock" ? rock : props.choice === "paper" ? paper : scissors} />
+        {phase === "prep" ? (
+          <p></p>
+        ) : (
+          <FontAwesomeIcon
+            className="fight-icon card-icon"
+            icon={
+              props.choice === "rock"
+                ? rock
+                : props.choice === "paper"
+                ? paper
+                : scissors
+            }
+          />
+        )}
       </a.div>
     </div>
   );

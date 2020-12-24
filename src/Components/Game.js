@@ -13,14 +13,17 @@ export default function Game() {
     setComputersChoice,
     playersChoice,
     computersChoice,
+    setPhase,
   } = useContext(GameContext);
   const [pokemonOne, setPokemonOne] = useState({});
   const [pokemonTwo, setPokemonTwo] = useState({});
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [randomId, setRandomId] = useState(Math.floor(Math.random() * 809));
-  const [showButtons, setShowButtons] = useState(true);
-  const [showTextfield, setShowTextfield] = useState(false);
+  const [showButtons, setShowButtons] = useState(false);
+  const [showTextfield, setShowTextfield] = useState(true);
+  const [showGameEndButtons, setShowGameEndButtons] = useState(false);
+  const [showLeaderboardSubmit, setShowLeaderboardSubmit] = useState(false);
   const { id } = useParams();
   const history = useHistory();
   const gamecardRefOne = useRef();
@@ -60,6 +63,7 @@ export default function Game() {
       setPlayersHp([values[0].base.HP, values[1].base.HP]);
       setPlayersHpPercentage([100, 100]);
       setLoading(false);
+      setupGame(values[1].name.english);
     });
   }, [winCounter]);
 
@@ -98,6 +102,17 @@ export default function Game() {
       getDamageMessage(playersDamage[0]),
       getDamageMessage(playersDamage[1]),
     ];
+  }
+
+  async function setupGame(pokTwoName) {
+    await pause(2000);
+    gamecardRefTwo.current.flipCard();
+    updateGameText(`${pokTwoName}!`);
+    await pause(2000);
+    updateGameText("FIGHT!");
+    await pause(2000);
+    setShowTextfield(false);
+    setShowButtons(true);
   }
 
   function getDamageMultiplier(typesOfAttacking, typesOfDefending) {
@@ -155,20 +170,17 @@ export default function Game() {
   };
 
   const rockPaperScissors = async (pChoice) => {
+    setPhase("fight");
     const cChoice = getSign(Math.floor(Math.random() * 3));
     setComputersChoice(cChoice);
-    flipCards();
-    console.log("Players choice: " + pChoice);
-    console.log(`Computers choice: ${cChoice}`);
 
+    flipCards();
     setShowButtons(false);
+    setShowTextfield(true);
 
     if (pChoice === cChoice) {
-      console.log("It's a tie!");
-      setShowButtons(false);
-      setShowTextfield(true);
       updateGameText("It's a tie!");
-      await pause(2000);
+      await pause(2500);
       setShowTextfield(false);
       setShowButtons(true);
       flipCards();
@@ -177,17 +189,21 @@ export default function Game() {
       (pChoice === "scissors" && cChoice === "paper") ||
       (pChoice === "paper" && cChoice === "rock")
     ) {
-      console.log("You won the round!");
       current_attacking_player = 0;
       current_defending_player = 1;
-      await pause(2000);
+      updateGameText(
+        `${players[current_attacking_player].name.english} is attacking...`
+      );
+      await pause(2500);
       flipCards();
       attack();
     } else {
-      console.log("You lost the round!");
       current_attacking_player = 1;
       current_defending_player = 0;
-      await pause(2000);
+      updateGameText(
+        `${players[current_attacking_player].name.english} is attacking...`
+      );
+      await pause(2500);
       flipCards();
       attack();
     }
@@ -195,7 +211,6 @@ export default function Game() {
 
   const attack = async () => {
     // computation and setting of attack, HP values etc.
-    console.log(playersDamage[current_attacking_player]);
     setShowTextfield(true);
     updateGameText(playersDamageMessages[current_attacking_player]);
     let newHpDefendingPlayer;
@@ -211,8 +226,7 @@ export default function Game() {
             playersDamage[current_attacking_player] *
             2
       );
-      console.log(newHpDefendingPlayer);
-      await pause(2000);
+      await pause(2500);
       updateGameText("It was so fast, it attacked twice!");
     } else {
       newHpDefendingPlayer = Math.floor(
@@ -243,40 +257,58 @@ export default function Game() {
       ])
     );
 
-    await pause(2000);
+    await pause(2500);
 
     if (newHpDefendingPlayer <= 0) {
       let gameResult = players[current_attacking_player].name.english;
       updateGameText(`${gameResult} wins!`);
 
       if (gameResult === pokemonOne.name.english) {
-        await pause(2000);
+        await pause(2500);
+        setPhase("prep");
+        gamecardRefTwo.current.flipCard();
         setWinCounter(winCounter + 1);
-        setShowTextfield(false);
-        setShowButtons(true);
+        updateGameText("The next pokemon is...");
       } else {
-        history.push("/leaderboard");
+        updateGameText(
+          `${players[current_defending_player].name.english} looses!`
+        );
+        await pause(2500);
+        updateGameText("GAME OVER!");
+        await pause(2500);
+        setShowGameEndButtons(true);
+        //history.push("/leaderboard");
       }
 
-      gameData = {
-        pokemon_one: pokemonOne.name.english,
-        pokemon_two: pokemonTwo.name.english,
-        number_of_rounds: 5,
-        result: gameResult,
-      };
+      // gameData = {
+      //   pokemon_one: pokemonOne.name.english,
+      //   pokemon_two: pokemonTwo.name.english,
+      //   number_of_rounds: 5,
+      //   result: gameResult,
+      // };
       //sendGameResult();
     } else {
       setShowTextfield(false);
       setShowButtons(true);
-      console.log(
-        "defending: " +
-          newHpDefendingPlayer +
-          " " +
-          "attacking: " +
-          playersHp[current_attacking_player]
-      );
     }
   };
+
+  const handleLeaderboardSubmission = () => {
+    setShowLeaderboardSubmit(true);
+    updateGameText(`You won ${winCounter} matches with ${pokemonOne.name.english}`)
+  }
+
+  const prepareLbData = (userName) => {
+    gameData = {
+      name: userName,
+      pokemon: pokemonOne.name.english,
+      defeated_pokemon: winCounter,
+    };
+    console.log(gameData)
+    //sendGameResult();
+    history.push("/leaderboard");
+  }
+
 
   // RENDER
   if (loading) {
@@ -293,10 +325,11 @@ export default function Game() {
             base={pokemonOne.base}
             ref={gamecardRefOne}
             choice={playersChoice}
+            position="left"
             // origin="game"
           />
           {showButtons === true && <GameButtons callback={rockPaperScissors} />}
-          {showTextfield === true && <GameTextbox />}
+          {showTextfield === true && <GameTextbox showInput={showLeaderboardSubmit} handleSubmit={prepareLbData}/>}
           <PokemonGamecard
             id={pokemonTwo.id}
             name={pokemonTwo.name}
@@ -304,12 +337,22 @@ export default function Game() {
             base={pokemonTwo.base}
             ref={gamecardRefTwo}
             choice={computersChoice}
+            position="right"
             // origin="game"
           />
         </ul>
-        <ul className="cardList">
+        <ul className="status-wrapper">
           <ProgressBar completed={playersHpPercentage[0]} />
-          <div className="game-textfield">{`Pokemon defeated: ${winCounter}`}</div>
+          <div className="helper-wrapper">
+            {showGameEndButtons ? (
+              <div className="game-end-btn-wrapper">
+                <button className="game-end-btn" onClick={handleLeaderboardSubmission}>{"Submit"}</button>
+                <button className="game-end-btn" onClick={() => history.push("/")}>Play again</button>
+              </div>
+            ) : (
+              <div className="game-textfield">{`Pokemon defeated: ${winCounter}`}</div>
+            )}
+          </div>
           <ProgressBar completed={playersHpPercentage[1]} />
         </ul>
       </div>

@@ -10,17 +10,18 @@ import Header from "./Components/Header";
 import Leaderboard from "./Components/Leaderboard";
 
 export default function App() {
-  const { updateGameText } = useContext(GameContext);
+  const { updateGameText, setPhase } = useContext(GameContext);
   const history = useHistory();
   
   useEffect(() => {
   return history.listen((location) => {
-    updateGameText("reset")
+    updateGameText("Selecting opponent...")
+    setPhase("prep")
   })
 }, [history, updateGameText])
 
   return (
-    <div>
+    <div className="main-wrapper">
       <Header />
       <Switch>
         <Route exact path="/">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PokemonCard from "./PokemonCard";
 import Pagination from "./Pagination";
+import Header from "./Header";
 
 export default function PokemonList() {
   const [pokemon, setPokemon] = useState([]);
@@ -32,10 +33,7 @@ export default function PokemonList() {
 
   return (
     <div>
-      <Link to="/leaderboard" className="leaderboard-button-link">
-        Leaderboard
-      </Link>
-      <h1 className="texta">Select the pokemon you want to fight with!</h1>
+      <h2 className="card__name">Choose your pokemon!</h2>
       <input
       className="search-input-field"
         type="text"
