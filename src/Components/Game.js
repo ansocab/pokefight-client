@@ -37,7 +37,6 @@ export default function Game() {
   let players = [];
   let playersDamage = [];
   let playersDamageMessages = [];
-  let gameData = {};
 
   // FETCH POKEMON (get request) AND GAME RESULT (post request)
   const getPokemonOne = fetch(`https://pokefightv2.herokuapp.com/pokemon/${id}`)
@@ -67,7 +66,8 @@ export default function Game() {
     });
   }, [winCounter]);
 
-  const sendGameResult = () => {
+  const sendGameResult = (gameData) => {
+    console.log(gameData)
     fetch(`https://pokefightv2.herokuapp.com/game/save`, {
       method: "POST",
       body: JSON.stringify(gameData),
@@ -76,7 +76,6 @@ export default function Game() {
       },
     })
       .then((res) => res.json())
-      // .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
 
@@ -105,12 +104,12 @@ export default function Game() {
   }
 
   async function setupGame(pokTwoName) {
-    await pause(2000);
+    await pause(2500);
     gamecardRefTwo.current.flipCard();
     updateGameText(`${pokTwoName}!`);
-    await pause(2000);
+    await pause(2500);
     updateGameText("FIGHT!");
-    await pause(2000);
+    await pause(2500);
     setShowTextfield(false);
     setShowButtons(true);
   }
@@ -277,16 +276,7 @@ export default function Game() {
         updateGameText("GAME OVER!");
         await pause(2500);
         setShowGameEndButtons(true);
-        //history.push("/leaderboard");
       }
-
-      // gameData = {
-      //   pokemon_one: pokemonOne.name.english,
-      //   pokemon_two: pokemonTwo.name.english,
-      //   number_of_rounds: 5,
-      //   result: gameResult,
-      // };
-      //sendGameResult();
     } else {
       setShowTextfield(false);
       setShowButtons(true);
@@ -299,13 +289,12 @@ export default function Game() {
   }
 
   const prepareLbData = (userName) => {
-    gameData = {
+    const gameData = {
       name: userName,
       pokemon: pokemonOne.name.english,
       defeated_pokemon: winCounter,
     };
-    console.log(gameData)
-    //sendGameResult();
+    sendGameResult(gameData);
     history.push("/leaderboard");
   }
 

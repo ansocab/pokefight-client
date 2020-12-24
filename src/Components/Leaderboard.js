@@ -18,26 +18,26 @@ export default function Leaderboard() {
       <table>
         <thead>
           <tr>
-            <th>Fight</th>
-            <th>No. of Rounds</th>
-            <th>Result</th>
+          <th></th>
+            <th>Player</th>
+            <th>Pokemon</th>
+            <th>Rounds</th>
           </tr>
         </thead>
         <tbody>
-          {leaderboard.map((game) => (
+          {leaderboard.map((game, index) => (
             <tr key={game._id}>
-              <td>{`${game.pokemon_one} vs. ${game.pokemon_two}`}</td>
-              <td>{game.number_of_rounds}</td>
-              <td>
-                {game.result === "tie" ? "Tie" : `Winner: ${game.result}`}
-              </td>
+              <td>{`${index+1}.`}</td>
+              <td>{game.name}</td>
+              <td>{game.pokemon}</td>
+              <td>{game.defeated_pokemon}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <Link to="/" className="leaderboard-button-link">
+      {/* <Link to="/" className="leaderboard-button-link">
         Start new game
-      </Link>
+      </Link> */}
     </div>
   );
 }

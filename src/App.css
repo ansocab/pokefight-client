@@ -43,7 +43,7 @@ nav li {
 }
 
 nav li a {
-  font-size: 1.3em;
+  font-size: 1.2em;
   margin: 0 3px;
   text-decoration: none;
   color: white;
@@ -291,7 +291,16 @@ nav img {
   color: rgba(0, 0, 0, 0.755);
   font-weight: 600;
   font-size: 1.2em;
-  padding: 2px 10px;
+  padding: 2px 5px;
+}
+
+.game-textfield input {
+  border-radius: 5px;
+  height: 20px;
+}
+
+.game-textfield input:focus {
+  border-color: rgba(255, 255, 255, 0.8);
 }
 
 #logger {
@@ -318,7 +327,12 @@ nav img {
 }
 
 .leaderboard table {
-  margin: 0 auto 4em auto;
+  margin: 2em auto;
+  font-size: 1.3em;
+}
+
+.leaderboard th, .leaderboard tr {
+  padding: 1em;
 }
 
 .header-wrapper {
@@ -337,12 +351,29 @@ nav img {
   font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
 } */
 
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .search-input-field {
-  margin-top: 20px;
-  height: 35px;
+  height: 30px;
   width: 200px;
   padding-left: 5px;
-  font-size: 1em;
+  font-size: 1.2em;
+  border-radius: 10px;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.701);
+}
+
+.search-input-field:focus {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.search-icon {
+  font-size: 1.5em;
+  margin-right: 10px;
 }
 
 .spinner {
