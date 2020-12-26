@@ -16,7 +16,7 @@ export default function App() {
   
   useEffect(() => {
   return history.listen((location) => {
-    updateGameText("Selecting opponent...")
+    updateGameText("You're figthing against...")
     setPhase("prep")
   })
 }, [history, updateGameText])

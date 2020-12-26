@@ -87,6 +87,7 @@ nav img {
   transition: 0.7s ease;
 }
 
+
 .Pokemonclass a {
   color: black !important;
   text-decoration: none;
@@ -333,6 +334,10 @@ nav img {
   position: absolute;
 }
 
+.leaderboard {
+  min-height: 73.5vh;
+}
+
 .leaderboard table {
   margin: 1em auto 3em auto;
   font-size: 1.3em;
@@ -443,6 +448,23 @@ font-size: 1.2em;
   cursor: pointer;
 }
 
+.progressbar-container {
+  height: 15px;
+  width: 315px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50px;
+  margin: auto 25px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.progressbar-filler {
+  height: 100%;
+    background-color: rgba(80, 222, 113, 1);
+    border-radius: inherit;
+    text-align: right;
+    transition: 1s ease-in-out;
+}
+
 /* CARD ANIMATION */
 .card-icon {
   font-size: 4em;
@@ -452,4 +474,118 @@ font-size: 1.2em;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* MOBILE */
+@media only screen and (max-width: 479px) {
+  nav a {
+    height: 60px;
+  }
+
+  nav img {
+    height: 100%;
+  }
+
+  nav ul {
+    padding-bottom: 5px;
+    text-align: right;
+  }
+
+  nav li {
+    padding: 0;
+  }
+
+  .leaderboard table {
+    font-size: 1em;
+  }
+
+  .card-wrapper {
+    width: 119px;
+    height: 208px;
+    border-radius: 20px;
+    margin: 0;
+  }
+
+  .Pokemonclass {
+    width: 119px;
+    height: 208px;
+    padding: 0.4em;
+    border-radius: 20px;
+  }
+
+  .card__image-container {
+    padding: 0;
+  }
+
+  .card__image-container img {
+    max-height: 60px;
+    padding: 0.5em;
+  }
+
+  .card__caption {
+    padding: 0.4em;
+  }
+
+  .card__name {
+    font-size: 1.2em;
+  }
+
+  .card__type {
+    font-size: 0.8em;
+    right: 0.2em;
+  }
+
+  .card__stats {
+    font-size: 0.8em;
+  }
+
+  .card__stats th, .card__stats td {
+    padding: 0 0.5em;
+  }
+
+  .fight-icon {
+   font-size: 1.6em; 
+  }
+
+  .weaponBtn-wrapper {
+    width: 50px;
+  }
+
+  .weaponBtn {
+    height: 45px;
+    width: 45px;
+    margin: 5px auto;
+    border: 2px solid rgba(0, 0, 0, 0.755);
+  }
+
+  #logger {
+    height: 160px;
+  }
+
+  .game-textfield {
+    border: 2px solid rgba(0, 0, 0, 0.755);
+    font-size: 0.8em;
+    width: 52px;
+    max-height: 200px;
+    border-radius: 15px;
+  }
+
+  .progressbar-container {
+    height: 6px;
+    width: 120px;
+    margin: auto 15px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+  }
+
+  .game-end-btn {
+    height: 40px;
+    width: 60px;
+    font-size: 0.8em;
+    border: 2px solid rgba(0, 0, 0, 0.755);
+  }
+
+  .game-textfield input {
+    width: 60px;
+    margin-bottom: 5px;
+  }
 }
