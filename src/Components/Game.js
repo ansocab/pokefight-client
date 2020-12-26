@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { GameContext } from "../GameContext";
 import { useHistory, useParams } from "react-router-dom";
+import { GameContext } from "../GameContext";
 import PokemonGamecard from "./PokemonGamecard";
 import VantaFog from "./VantaFog";
 import GameTextbox from "./GameTextbox";
 import GameButtons from "./GameButtons";
 import ProgressBar from "./ProgressBar";
+import mew from "../assets/mew.gif";
 
 export default function Game() {
   const {
@@ -54,20 +55,24 @@ export default function Game() {
     .catch((err) => console.log(err));
 
   useEffect(() => {
+    let mounted = true;
     setRandomId(Math.floor(Math.random() * 809));
     Promise.all([getPokemonOne, getPokemonTwo, getTypeData]).then((values) => {
-      setPokemonOne(values[0]);
-      setPokemonTwo(values[1]);
-      setTypes(values[2]);
-      setPlayersHp([values[0].base.HP, values[1].base.HP]);
-      setPlayersHpPercentage([100, 100]);
-      setLoading(false);
-      setupGame(values[1].name.english);
+      if (mounted) {
+        setPokemonOne(values[0]);
+        setPokemonTwo(values[1]);
+        setTypes(values[2]);
+        setPlayersHp([values[0].base.HP, values[1].base.HP]);
+        setPlayersHpPercentage([100, 100]);
+        setLoading(false);
+        setupGame(values[1].name.english);
+      }
     });
+    return () => (mounted = false);
   }, [winCounter]);
 
   const sendGameResult = (gameData) => {
-    console.log(gameData)
+    console.log(gameData);
     fetch(`https://pokefightv2.herokuapp.com/game/save`, {
       method: "POST",
       body: JSON.stringify(gameData),
@@ -75,7 +80,10 @@ export default function Game() {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        res.json();
+      })
+      .then(history.push("/leaderboard"))
       .catch((err) => console.log(err));
   };
 
@@ -105,7 +113,9 @@ export default function Game() {
 
   async function setupGame(pokTwoName) {
     await pause(2500);
-    gamecardRefTwo.current.flipCard();
+    if (gamecardRefTwo.current) {
+      gamecardRefTwo.current.flipCard();
+    }
     updateGameText(`${pokTwoName}!`);
     await pause(2500);
     updateGameText("FIGHT!");
@@ -285,8 +295,16 @@ export default function Game() {
 
   const handleLeaderboardSubmission = () => {
     setShowLeaderboardSubmit(true);
-    updateGameText(`You won ${winCounter} matches with ${pokemonOne.name.english}`)
-  }
+    if (winCounter === 1) {
+      updateGameText(
+        `You won ${winCounter} match with ${pokemonOne.name.english}`
+      );
+    } else {
+      updateGameText(
+        `You won ${winCounter} matches with ${pokemonOne.name.english}`
+      );
+    }
+  };
 
   const prepareLbData = (userName) => {
     const gameData = {
@@ -295,56 +313,79 @@ export default function Game() {
       defeated_pokemon: winCounter,
     };
     sendGameResult(gameData);
-    history.push("/leaderboard");
-  }
-
+  };
 
   // RENDER
-  if (loading) {
-    return <div className="spinner"></div>;
-  } else {
-    return (
+  return (
+    <div className="game-wrapper-helper">
       <div className="game-wrapper">
         <VantaFog />
-        <ul className="cardList">
-          <PokemonGamecard
-            id={pokemonOne.id}
-            name={pokemonOne.name}
-            type={pokemonOne.type}
-            base={pokemonOne.base}
-            ref={gamecardRefOne}
-            choice={playersChoice}
-            position="left"
-            // origin="game"
+        {loading ? (
+          <img
+            src={mew}
+            alt="loading mew gif"
+            style={{ margin: "250px 0", height: "100px", width: "auto" }}
           />
-          {showButtons === true && <GameButtons callback={rockPaperScissors} />}
-          {showTextfield === true && <GameTextbox showInput={showLeaderboardSubmit} handleSubmit={prepareLbData}/>}
-          <PokemonGamecard
-            id={pokemonTwo.id}
-            name={pokemonTwo.name}
-            type={pokemonTwo.type}
-            base={pokemonTwo.base}
-            ref={gamecardRefTwo}
-            choice={computersChoice}
-            position="right"
-            // origin="game"
-          />
-        </ul>
-        <ul className="status-wrapper">
-          <ProgressBar completed={playersHpPercentage[0]} />
-          <div className="helper-wrapper">
-            {showGameEndButtons ? (
-              <div className="game-end-btn-wrapper">
-                <button className="game-end-btn" onClick={handleLeaderboardSubmission}>{"Submit"}</button>
-                <button className="game-end-btn" onClick={() => history.push("/")}>Play again</button>
+        ) : (
+          <>
+            <ul className="cardList">
+              <PokemonGamecard
+                id={pokemonOne.id}
+                name={pokemonOne.name}
+                type={pokemonOne.type}
+                base={pokemonOne.base}
+                ref={gamecardRefOne}
+                choice={playersChoice}
+                position="left"
+                // origin="game"
+              />
+              {showButtons === true && (
+                <GameButtons callback={rockPaperScissors} />
+              )}
+              {showTextfield === true && (
+                <GameTextbox
+                  showInput={showLeaderboardSubmit}
+                  handleSubmit={prepareLbData}
+                />
+              )}
+              <PokemonGamecard
+                id={pokemonTwo.id}
+                name={pokemonTwo.name}
+                type={pokemonTwo.type}
+                base={pokemonTwo.base}
+                ref={gamecardRefTwo}
+                choice={computersChoice}
+                position="right"
+                // origin="game"
+              />
+            </ul>
+            <ul className="status-wrapper">
+              <ProgressBar completed={playersHpPercentage[0]} />
+              <div className="helper-wrapper">
+                {showGameEndButtons ? (
+                  <div className="game-end-btn-wrapper">
+                    <button
+                      className="game-end-btn"
+                      onClick={handleLeaderboardSubmission}
+                    >
+                      {"Submit"}
+                    </button>
+                    <button
+                      className="game-end-btn"
+                      onClick={() => history.push("/")}
+                    >
+                      Play again
+                    </button>
+                  </div>
+                ) : (
+                  <div className="game-textfield">{`Pokemon defeated: ${winCounter}`}</div>
+                )}
               </div>
-            ) : (
-              <div className="game-textfield">{`Pokemon defeated: ${winCounter}`}</div>
-            )}
-          </div>
-          <ProgressBar completed={playersHpPercentage[1]} />
-        </ul>
+              <ProgressBar completed={playersHpPercentage[1]} />
+            </ul>
+          </>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 }

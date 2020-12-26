@@ -6,6 +6,7 @@ import PokemonList from "./Components/PokemonList";
 import Game from "./Components/Game";
 import PokemonSupDetailView from "./Components/PokemonSupDetailView";
 import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 
 import Leaderboard from "./Components/Leaderboard";
 
@@ -40,6 +41,7 @@ export default function App() {
           <PokemonSupDetailView />
         </Route>
       </Switch>
+      <Footer />
     </div>
   );
 }

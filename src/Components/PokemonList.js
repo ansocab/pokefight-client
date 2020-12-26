@@ -3,6 +3,7 @@ import PokemonCard from "./PokemonCard";
 import Pagination from "./Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import mew from "../assets/mew.gif";
 
 export default function PokemonList() {
   const [pokemon, setPokemon] = useState([]);
@@ -10,14 +11,16 @@ export default function PokemonList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getDataFromPokefighten = () => {
+    setLoading(true);
     fetch(`https://pokefightv2.herokuapp.com/pokemon/page/?page=${currentPage}`)
       .then((response) => response.json())
       .then((response) => {
         setTotalPages(response.total_pages);
         setPokemon(response.pokemon_list);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -27,11 +30,13 @@ export default function PokemonList() {
   }, [currentPage]);
 
   useEffect(() => {
+    setLoading(true);
     const getSearchResults = () => {
       fetch(`https://pokefightv2.herokuapp.com/search/?query=${searchQuery}`)
         .then((response) => response.json())
         .then((response) => {
           setPokemon(response);
+          setLoading(false);
         })
         .catch((err) => console.log(err));
     };
@@ -59,7 +64,7 @@ export default function PokemonList() {
     <div>
       <h2 className="card__name">Choose your pokemon!</h2>
       <div className="search-wrapper">
-        <FontAwesomeIcon icon={faSearch} className="search-icon"/>
+        <FontAwesomeIcon icon={faSearch} className="search-icon" />
         <input
           className="search-input-field"
           type="text"
@@ -69,7 +74,11 @@ export default function PokemonList() {
         />
       </div>
       {loading ? (
-        <div></div>
+        <img
+          src={mew}
+          alt="loading mew gif"
+          style={{ margin: "150px 0", height: "100px", width: "auto" }}
+        />
       ) : (
         <ul className="cardList">
           {pokemon.map((item) => (
