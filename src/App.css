@@ -230,18 +230,6 @@ nav img {
   transition: 0.4s ease;
 }
 
-/* .btn-rock {
-  background-color:rgb(220, 155,158);
-}
-
-.btn-paper {
-  background-color:rgb(237, 203,137);
-}
-
-.btn-scissors {
-  background-color:rgb(209, 225,155);
-} */
-
 .weaponBtn:hover, .game-end-btn:hover {
   transform: scale(1.1);
 }
@@ -256,14 +244,14 @@ nav img {
 
 .game-end-btn-wrapper {
   display: flex;
+  flex-flow: column;
   justify-content: space-around;
 }
 
 .game-end-btn {
   height: 70px;
-  width: 100px;
-  margin: 0 10px;
-  font-size: 1.3em;
+  width: 205px;
+  font-size: 1.2em;
   font-weight: 600;
 }
 
@@ -283,17 +271,17 @@ nav img {
 .game-wrapper {
   position: absolute;
   width: 100vw;
-  height: 90vh;
+  height: 100vh;
   z-index: 100;
 }
 
 .game-wrapper-helper {
-  height: 90vh;
+  height: 100vh;
 }
 
 .game-textfield {
   width: 200px;
-  border-radius: 30px;
+  border-radius: 25px;
   border: 3px solid rgba(0, 0, 0, 0.755);
   background: rgba(255, 255, 255, 0.7);
   color: rgba(0, 0, 0, 0.755);
@@ -499,18 +487,22 @@ font-size: 1.2em;
     font-size: 1em;
   }
 
-  .card-wrapper {
-    width: 119px;
-    height: 208px;
-    border-radius: 20px;
-    margin: 0;
-  }
-
   .Pokemonclass {
     width: 119px;
     height: 208px;
     padding: 0.4em;
+    border-radius: 25px;
+  }
+
+  .card-wrapper {
+    width: 119px;
+    height: 220px;
     border-radius: 20px;
+    margin: 0;
+  }
+
+  .pokemon-gamecard {
+    height: 220px;
   }
 
   .card__image-container {

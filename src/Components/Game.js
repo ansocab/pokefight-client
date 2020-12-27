@@ -25,6 +25,7 @@ export default function Game() {
   const [showTextfield, setShowTextfield] = useState(true);
   const [showGameEndButtons, setShowGameEndButtons] = useState(false);
   const [showLeaderboardSubmit, setShowLeaderboardSubmit] = useState(false);
+  const [postRequestData, setPostRequestData] = useState({});
   const { id } = useParams();
   const history = useHistory();
   const gamecardRefOne = useRef();
@@ -81,11 +82,18 @@ export default function Game() {
       },
     })
       .then((res) => {
-        res.json();
+        handleRedirect(res);
       })
-      .then(history.push("/leaderboard"))
       .catch((err) => console.log(err));
   };
+
+  function handleRedirect(res) {
+    if (res.status === 200) {
+      history.push("/leaderboard");
+    } else {
+      console.log("something went wrong");
+    }
+  }
 
   //GAME LOGIC
   if (!loading) {
@@ -285,6 +293,7 @@ export default function Game() {
         await pause(2500);
         updateGameText("GAME OVER!");
         await pause(2500);
+        setShowTextfield(false);
         setShowGameEndButtons(true);
       }
     } else {
@@ -348,21 +357,7 @@ export default function Game() {
                   handleSubmit={prepareLbData}
                 />
               )}
-              <PokemonGamecard
-                id={pokemonTwo.id}
-                name={pokemonTwo.name}
-                type={pokemonTwo.type}
-                base={pokemonTwo.base}
-                ref={gamecardRefTwo}
-                choice={computersChoice}
-                position="right"
-                // origin="game"
-              />
-            </ul>
-            <ul className="status-wrapper">
-              <ProgressBar completed={playersHpPercentage[0]} />
-              <div className="helper-wrapper">
-                {showGameEndButtons ? (
+              {showGameEndButtons === true && (
                   <div className="game-end-btn-wrapper">
                     <button
                       className="game-end-btn"
@@ -377,9 +372,39 @@ export default function Game() {
                       Play again
                     </button>
                   </div>
-                ) : (
-                  <div className="game-textfield">{`Pokemon defeated: ${winCounter}`}</div>
                 )}
+              <PokemonGamecard
+                id={pokemonTwo.id}
+                name={pokemonTwo.name}
+                type={pokemonTwo.type}
+                base={pokemonTwo.base}
+                ref={gamecardRefTwo}
+                choice={computersChoice}
+                position="right"
+                // origin="game"
+              />
+            </ul>
+            <ul className="status-wrapper">
+              <ProgressBar completed={playersHpPercentage[0]} />
+              <div className="helper-wrapper">
+                {/* {showGameEndButtons ? (
+                  <div className="game-end-btn-wrapper">
+                    <button
+                      className="game-end-btn"
+                      onClick={handleLeaderboardSubmission}
+                    >
+                      {"Submit"}
+                    </button>
+                    <button
+                      className="game-end-btn"
+                      onClick={() => history.push("/")}
+                    >
+                      Play again
+                    </button>
+                  </div>
+                ) : ( */}
+                  <div className="game-textfield">{`Pokemon defeated: ${winCounter}`}</div>
+                
               </div>
               <ProgressBar completed={playersHpPercentage[1]} />
             </ul>
