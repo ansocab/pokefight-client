@@ -6,6 +6,8 @@ Full-stack web application built with **React.js** and **custom CSS** in the fro
 
 Based on a group project with [Abhoy-Tripathy](https://github.com/Abhoy-Tripathy), [aZlateski](https://github.com/aZlateski) and [sly18Peso4all](https://github.com/sly18Peso4all)
 
+Collaborator: [Lido Mazzucco](https://github.com/Bicoda)
+
 **Live demo: https://pokemonrps.netlify.app/**
 
 ![Live app screenshot](src/assets/screenshot.png)
