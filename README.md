@@ -11,9 +11,9 @@ Based on a group project with [Abhoy-Tripathy](https://github.com/Abhoy-Tripathy
 ![Live app screenshot](src/assets/screenshot.png)
 
 
-Repository frontend: [github.com/ansocab/pokefight-client](https://github.com/ansocab/pokefight-client)
+Code frontend: [github.com/ansocab/pokefight-client](https://github.com/ansocab/pokefight-client)
 
-Repository backend: [github.com/ansocab/pokefight-server](https://github.com/lidiyacheb/pokefight-server)
+Code backend: [github.com/ansocab/pokefight-server](https://github.com/lidiyacheb/pokefight-server)
 
 
 ## Libraries and Resources
