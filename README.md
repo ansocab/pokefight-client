@@ -13,7 +13,7 @@ Based on a group project with [Abhoy-Tripathy](https://github.com/Abhoy-Tripathy
 
 Code frontend: [github.com/ansocab/pokefight-client](https://github.com/ansocab/pokefight-client)
 
-Code backend: [github.com/ansocab/pokefight-server](https://github.com/lidiyacheb/pokefight-server)
+Code backend: [github.com/ansocab/pokefight-server](https://github.com/ansocab/pokefight-server)
 
 
 ## Libraries and Resources
