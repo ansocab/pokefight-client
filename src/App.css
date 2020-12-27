@@ -271,12 +271,12 @@ nav img {
 .game-wrapper {
   position: absolute;
   width: 100vw;
-  height: 48em;
+  height: 50em;
   z-index: 100;
 }
 
 .game-wrapper-helper {
-  height: 48em;
+  height: 50em;
 }
 
 .game-textfield {
@@ -488,7 +488,7 @@ font-size: 1.2em;
   }
 
   .game-wrapper, .game-wrapper-helper {
-    height: 30em;
+    height: 40em;
   }
 
   .Pokemonclass {
