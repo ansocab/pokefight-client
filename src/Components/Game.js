@@ -303,6 +303,8 @@ export default function Game() {
   };
 
   const handleLeaderboardSubmission = () => {
+    setShowGameEndButtons(false);
+    setShowTextfield(true);
     setShowLeaderboardSubmit(true);
     if (winCounter === 1) {
       updateGameText(
