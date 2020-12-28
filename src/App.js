@@ -4,7 +4,6 @@ import { GameContext } from "./GameContext";
 import { Switch, Route, useHistory } from "react-router-dom";
 import PokemonList from "./Components/PokemonList";
 import Game from "./Components/Game";
-import PokemonSupDetailView from "./Components/PokemonSupDetailView";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 
@@ -13,13 +12,13 @@ import Leaderboard from "./Components/Leaderboard";
 export default function App() {
   const { updateGameText, setPhase } = useContext(GameContext);
   const history = useHistory();
-  
+
   useEffect(() => {
-  return history.listen((location) => {
-    updateGameText("You're figthing against...")
-    setPhase("prep")
-  })
-}, [history, updateGameText])
+    return history.listen((location) => {
+      updateGameText("You're figthing against...");
+      setPhase("prep");
+    });
+  }, [history, updateGameText]);
 
   return (
     <div className="main-wrapper">
@@ -35,10 +34,6 @@ export default function App() {
 
         <Route path="/leaderboard">
           <Leaderboard />
-        </Route>
-
-        <Route path="/:id/:info">
-          <PokemonSupDetailView />
         </Route>
       </Switch>
       <Footer />
