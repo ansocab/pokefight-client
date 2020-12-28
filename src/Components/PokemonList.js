@@ -33,7 +33,7 @@ export default function PokemonList() {
   useEffect(() => {
     setLoading(true);
     const getSearchResults = () => {
-      fetch(`http://pokefightv2.herokuapp.com/search/?query=${searchQuery}`)
+      fetch(`https://pokefightv2.herokuapp.com/search/?query=${searchQuery}`)
         .then((response) => response.json())
         .then((response) => {
           console.log(response)
