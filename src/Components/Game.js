@@ -25,7 +25,6 @@ export default function Game() {
   const [showTextfield, setShowTextfield] = useState(true);
   const [showGameEndButtons, setShowGameEndButtons] = useState(false);
   const [showLeaderboardSubmit, setShowLeaderboardSubmit] = useState(false);
-  const [postRequestData, setPostRequestData] = useState({});
   const { id } = useParams();
   const history = useHistory();
   const gamecardRefOne = useRef();

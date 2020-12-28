@@ -29,6 +29,12 @@ h2 {
   margin-bottom: 20px;
 }
 
+.header-wrapper {
+  padding-top: 15px;
+  padding-bottom: 5px;
+  background-color: rgb(54, 54, 54);
+}
+
 nav {
   padding: 0 25px;
   display: flex;
@@ -58,8 +64,12 @@ nav img {
 }
 
 .main-wrapper {
-  background: rgb(249,236,37);
-  background: linear-gradient(145deg, rgba(249,236,37,1) 0%, rgba(253,107,29,0.8883928571428571) 100%);
+  background: rgb(249, 236, 37);
+  background: linear-gradient(
+    145deg,
+    rgba(249, 236, 37, 1) 0%,
+    rgba(253, 107, 29, 0.8883928571428571) 100%
+  );
 }
 
 .cardList {
@@ -87,7 +97,6 @@ nav img {
   transition: 0.7s ease;
 }
 
-
 .Pokemonclass a {
   color: black !important;
   text-decoration: none;
@@ -99,6 +108,7 @@ nav img {
   background: none;
   padding: 0;
   box-shadow: none;
+  z-index: 0;
 }
 
 .pokemon-gamecard {
@@ -175,43 +185,18 @@ nav img {
   padding: 0.25em 0.5em 0;
 }
 
+/* CARD ANIMATION */
+.card-icon {
+  font-size: 4em;
+}
+
+.back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* BUTTONS */
-.fight-button,
-.leaderboard-button-link,
-.leaderboard-button {
-  background: none;
-  background-color: #ffcb05;
-  font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
-  font-size: 5em;
-  padding: 20px;
-  border: none;
-  display: inline-block;
-  margin: 50px;
-  box-shadow: 3px 4px #9f9898;
-  border-radius: 15px;
-  outline: none;
-  transition: 0.5s ease;
-}
-
-.leaderboard-button-link,
-.leaderboard-button {
-  font-size: 2em;
-  text-decoration: none;
-}
-
-.leaderboard-button-link:hover,
-.fight-button:hover,
-.leaderboard-button:hover {
-  transform: scale(1.06);
-}
-
-@media only screen and (max-width: 480px) {
-  .fight-button {
-    font-size: 3em;
-    margin-bottom: 10px;
-  }
-}
-
 .weaponBtn-wrapper {
   width: 200px;
   padding: 10px;
@@ -219,7 +204,8 @@ nav img {
   transition: 0.4s ease;
 }
 
-.weaponBtn, .game-end-btn {
+.weaponBtn,
+.game-end-btn {
   margin: 10px;
   height: 65px;
   width: 65px;
@@ -230,7 +216,8 @@ nav img {
   transition: 0.4s ease;
 }
 
-.weaponBtn:hover, .game-end-btn:hover {
+.weaponBtn:hover,
+.game-end-btn:hover {
   transform: scale(1.1);
 }
 
@@ -267,18 +254,7 @@ nav img {
   margin: auto 0;
 }
 
-/* OTHER ELEMENTS */
-.game-wrapper {
-  position: absolute;
-  width: 100vw;
-  height: 50em;
-  z-index: 100;
-}
-
-.game-wrapper-helper {
-  height: 50em;
-}
-
+/* TEXT FIELD */
 .game-textfield {
   width: 200px;
   border-radius: 25px;
@@ -308,11 +284,23 @@ nav img {
 }
 
 .game-textfield p {
-  margin: 0
+  margin: 0;
 }
 
 .game-textfield form {
   margin: 7px;
+}
+
+/* BACKGROUND */
+.game-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 50em;
+  z-index: 100;
+}
+
+.game-wrapper-helper {
+  height: 50em;
 }
 
 .vanta-background {
@@ -322,6 +310,7 @@ nav img {
   position: absolute;
 }
 
+/* LEADERBOARD */
 .leaderboard {
   min-height: 73.5vh;
 }
@@ -331,36 +320,12 @@ nav img {
   font-size: 1.3em;
 }
 
-.leaderboard th, .leaderboard tr {
+.leaderboard th,
+.leaderboard tr {
   padding: 1em;
 }
 
-.header-wrapper {
-  padding-top: 15px;
-  padding-bottom: 5px;
-  background-color: rgb(54, 54, 54);
-}
-
-.footer-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  background-color: rgb(54, 54, 54);
-  color: white;
-  font-size: 1em;
-}
-
-.footer-wrapper a {
-  color: white;
-margin-left: 10px;
-font-size: 1.2em;
-}
-
-.footer-wrapper a:hover {
-  color: rgb(255, 203, 5);
-}
-
+/* SEARCH */
 .search-wrapper {
   display: flex;
   justify-content: center;
@@ -386,16 +351,10 @@ font-size: 1.2em;
   margin-right: 10px;
 }
 
-.spinner {
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid darkgray;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  margin-top: 100px;
-  margin-left: auto;
-  margin-right: auto;
-  animation: spin 2s linear infinite;
+.search-feedback {
+  font-size: 1.2em;
+  margin-top: 3em;
+  margin-bottom: 27em;
 }
 
 /* PAGINATION */
@@ -436,6 +395,7 @@ font-size: 1.2em;
   cursor: pointer;
 }
 
+/* PROGRESS BAR */
 .progressbar-container {
   height: 15px;
   width: 315px;
@@ -447,21 +407,31 @@ font-size: 1.2em;
 
 .progressbar-filler {
   height: 100%;
-    background-color: rgba(80, 222, 113, 1);
-    border-radius: inherit;
-    text-align: right;
-    transition: 1s ease-in-out;
+  background-color: rgba(80, 222, 113, 1);
+  border-radius: inherit;
+  text-align: right;
+  transition: 1s ease-in-out;
 }
 
-/* CARD ANIMATION */
-.card-icon {
-  font-size: 4em;
-}
-
-.back {
+/* FOOTER */
+.footer-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5px;
+  background-color: rgb(54, 54, 54);
+  color: white;
+  font-size: 1em;
+}
+
+.footer-wrapper a {
+  color: white;
+  margin-left: 10px;
+  font-size: 1.2em;
+}
+
+.footer-wrapper a:hover {
+  color: rgb(255, 203, 5);
 }
 
 /* MOBILE */
@@ -487,7 +457,8 @@ font-size: 1.2em;
     font-size: 1em;
   }
 
-  .game-wrapper, .game-wrapper-helper {
+  .game-wrapper,
+  .game-wrapper-helper {
     height: 40em;
   }
 
@@ -535,12 +506,13 @@ font-size: 1.2em;
     font-size: 0.8em;
   }
 
-  .card__stats th, .card__stats td {
+  .card__stats th,
+  .card__stats td {
     padding: 0 0.5em;
   }
 
   .fight-icon {
-   font-size: 1.6em; 
+    font-size: 1.6em;
   }
 
   .weaponBtn-wrapper {

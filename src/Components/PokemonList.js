@@ -9,6 +9,7 @@ export default function PokemonList() {
   const [pokemon, setPokemon] = useState([]);
   const [query, setQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [noSearchResult, setNoSearchResult] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -32,11 +33,18 @@ export default function PokemonList() {
   useEffect(() => {
     setLoading(true);
     const getSearchResults = () => {
-      fetch(`https://pokefightv2.herokuapp.com/search/?query=${searchQuery}`)
+      fetch(`http://pokefightv2.herokuapp.com/search/?query=${searchQuery}`)
         .then((response) => response.json())
         .then((response) => {
-          setPokemon(response);
-          setLoading(false);
+          console.log(response)
+          if(response.length !== 0) {
+            setPokemon(response);
+            setNoSearchResult(false)
+            setLoading(false);
+          } else {
+            console.log("no pokemon found")
+            setNoSearchResult(true)
+          }
         })
         .catch((err) => console.log(err));
     };
@@ -73,7 +81,7 @@ export default function PokemonList() {
           placeholder="Pokemon name"
         />
       </div>
-      {loading ? (
+      {loading ? (noSearchResult ? <p className="search-feedback">No pokemon found</p> :
         <img
           src={mew}
           alt="loading mew gif"
